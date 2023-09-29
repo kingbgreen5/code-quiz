@@ -1,9 +1,5 @@
-
-
-
-
-//
 var pageNumber = 0
+var score = 0
 
 
 var container = document.querySelector(".container");
@@ -12,23 +8,38 @@ var question1 = document.querySelector("#question1");
 var question2 = document.querySelector("#question2");
 var question3 = document.querySelector("#question3");
 var question4 = document.querySelector("#question4");
+var initials  = document.querySelector("#enterInitials")
 var scoreCard = document.querySelector("#scoreCard");
-//question1.setAttribute("style", "font-size: 25px; font-weight: bold; text-decoration:underline; ");
+
+
+//correct answers
+var correct1="A"
+var correct2="B"
+var correct3="C"
+var correct4="D"
+
+var selected1=''
+var selected2=''
+var selected3=''
+var selected4=''
 
 console.log(homepage)
 console.log(question1)
 console.log(question2)
 console.log(question3)
 console.log(question4)
+console.log(initials)
 console.log(scoreCard)
 
-function pageNumberSwitch() {
+
+function pageNumberSwitch() {       //defines pageNumberSwitch Logic
   if (pageNumber === 0){
     homepage.setAttribute("style",'display: block');
     question1.setAttribute("style",'display: none');
     question2.setAttribute("style",'display: none');
     question3.setAttribute("style",'display: none');
     question4.setAttribute("style",'display: none');
+    initials.setAttribute("style",'display: none');
     scoreCard.setAttribute("style",'display: none');
   };
   
@@ -38,6 +49,7 @@ function pageNumberSwitch() {
     question2.setAttribute("style",'display: none');
     question3.setAttribute("style",'display: none');
     question4.setAttribute("style",'display: none');
+    initials.setAttribute("style",'display: none');
     scoreCard.setAttribute("style",'display: none');
     };
     
@@ -47,6 +59,7 @@ function pageNumberSwitch() {
       question2.setAttribute("style",'display: block');
       question3.setAttribute("style",'display: none');
       question4.setAttribute("style",'display: none');
+      initials.setAttribute("style",'display: none');
       scoreCard.setAttribute("style",'display: none');
     };
       
@@ -56,6 +69,7 @@ function pageNumberSwitch() {
       question2.setAttribute("style",'display: none');
       question3.setAttribute("style",'display: block');
       question4.setAttribute("style",'display: none');
+      initials.setAttribute("style",'display: none');
       scoreCard.setAttribute("style",'display: none');
     };
         
@@ -65,6 +79,7 @@ function pageNumberSwitch() {
       question2.setAttribute("style",'display: none');
       question3.setAttribute("style",'display: none');
       question4.setAttribute("style",'display: block');
+      initials.setAttribute("style",'display: none');
       scoreCard.setAttribute("style",'display: none');
     };
           
@@ -74,13 +89,24 @@ function pageNumberSwitch() {
       question2.setAttribute("style",'display: none');
       question3.setAttribute("style",'display: none');
       question4.setAttribute("style",'display: none');
-      scoreCard.setAttribute("style",'display: block');
+      initials.setAttribute("style",'display: block');
+      scoreCard.setAttribute("style",'display: none');
     };
-            
-    
-  };
 
- 
+      if (pageNumber === 6){
+        homepage.setAttribute("style",'display: none');
+        question1.setAttribute("style",'display: none');
+        question2.setAttribute("style",'display: none');
+        question3.setAttribute("style",'display: none');
+        question4.setAttribute("style",'display: none');
+        initials.setAttribute("style",'display: none');
+        scoreCard.setAttribute("style",'display: block');
+      };
+
+
+
+    };
+
 
 
 // Listen for any clicks within the container div
@@ -88,17 +114,110 @@ container.addEventListener("click", function(event) {
   event.preventDefault()
   var element = event.target;
 // if the clicked element is a button, then increase page number by 1
-  if (element.matches("button")  && pageNumber<5 )  {
 
-    pageNumber++;
-    //     proceed to the next page
-    var selectedAnswer = element.getAttribute("data-letter");
-    console.log(selectedAnswer);
-   
+// records selected answers to variables corresponding to each question
+//order must be reversed to prevent opperation racing through all pages.
 
 
+if (element.matches("button")  && pageNumber==5 )  {
+  var selectedAnswer = element.getAttribute("data-letter");
+  var selected5= selectedAnswer
+  console.log("Question 5: " + selected5)
 
-    pageNumberSwitch()
+  pageNumber++;
+  pageNumberSwitch()
+}
+
+if (element.matches("button")  && pageNumber==4 )  {
+  var selectedAnswer = element.getAttribute("data-letter");
+  var selected4= selectedAnswer
+  console.log("Question 4: " + selected4)
+  
+  pageNumber++;
+  pageNumberSwitch()
+}
+
+
+if (element.matches("button")  && pageNumber==3 )  {
+  var selectedAnswer = element.getAttribute("data-letter");
+  var selected3= selectedAnswer
+  console.log("Question 3: " + selected3)
+ 
+  pageNumber++;
+  pageNumberSwitch()
+}
+
+
+if (element.matches("button")  && pageNumber==2 )  {
+  var selectedAnswer = element.getAttribute("data-letter");
+  var selected2= selectedAnswer
+  console.log("Question 2: " + selected2)
+  
+  pageNumber++;
+  pageNumberSwitch()
+}
+
+if (element.matches("button")  && pageNumber==1 )  {
+  var selectedAnswer = element.getAttribute("data-letter");
+  var selected1= selectedAnswer
+  console.log("Question 1: " + selected1)
+ 
+  if(selected1==correct1){              //logic which will govern how the score is added to
+    score=score=20;
+  }else{
+    //subtract from timer
+  }
+
+  pageNumber++;
+  pageNumberSwitch()
+}
+
+if (element.matches("button")  && pageNumber==0 )  {
+  console.log("Page " + pageNumber)
+  pageNumber++;
+  //start timer code
+ 
+
+ 
+
+
+
+
+
+
+    
+
+
+
+
+
+ 
+     pageNumberSwitch()
+
+  }
+
+
+
+
+// records selected answers to variables corresponding to each question
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // going to create objects on score screen page
+if (element.matches("button")  && pageNumber==5 )  {
+
 
   }});
 
@@ -106,6 +225,7 @@ container.addEventListener("click", function(event) {
   pageNumberSwitch()
 
 
+  console.log(pageNumber)
 
 
 
