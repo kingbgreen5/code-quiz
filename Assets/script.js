@@ -1,5 +1,6 @@
 var pageNumber = 0
 var score = 0
+var timer=''
 
 
 var container = document.querySelector(".container");
@@ -32,6 +33,35 @@ console.log(initials)
 console.log(scoreCard)
 
 
+
+
+var timeEl = document.querySelector("#timeDisplay");
+
+function setTime() {
+  // Sets interval in variable
+  var timerInterval = setInterval(function() {
+    timer--;
+    timeEl.textContent = timer;
+
+    if(timer=== 0) {
+      // Stops execution of action at set interval
+      clearInterval(timerInterval);
+      // Calls function to send user to score screen
+      pageNumber=5;
+      pageNumberSwitch()
+    }
+    //stops timer at score screen
+    if(pageNumber=== 5) {     //stops timer at page 5
+      // Stops execution of action at set interval
+      clearInterval(timerInterval);
+      // Calls function to send user to score screen
+    
+      pageNumberSwitch()
+    }
+console.log(timer)
+  }, 1000);
+}
+
 function pageNumberSwitch() {       //defines pageNumberSwitch Logic
   if (pageNumber === 0){
     homepage.setAttribute("style",'display: block');
@@ -41,6 +71,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
     question4.setAttribute("style",'display: none');
     initials.setAttribute("style",'display: none');
     scoreCard.setAttribute("style",'display: none');
+    console.log(pageNumber)
   };
   
   if (pageNumber === 1){
@@ -51,6 +82,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
     question4.setAttribute("style",'display: none');
     initials.setAttribute("style",'display: none');
     scoreCard.setAttribute("style",'display: none');
+    console.log(pageNumber)
     };
     
     if (pageNumber === 2){
@@ -61,6 +93,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
       question4.setAttribute("style",'display: none');
       initials.setAttribute("style",'display: none');
       scoreCard.setAttribute("style",'display: none');
+      console.log(pageNumber)
     };
       
     if (pageNumber === 3){
@@ -71,6 +104,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
       question4.setAttribute("style",'display: none');
       initials.setAttribute("style",'display: none');
       scoreCard.setAttribute("style",'display: none');
+      console.log(pageNumber)
     };
         
     if (pageNumber === 4){
@@ -81,6 +115,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
       question4.setAttribute("style",'display: block');
       initials.setAttribute("style",'display: none');
       scoreCard.setAttribute("style",'display: none');
+      console.log(pageNumber)
     };
           
     if (pageNumber === 5){
@@ -91,6 +126,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
       question4.setAttribute("style",'display: none');
       initials.setAttribute("style",'display: block');
       scoreCard.setAttribute("style",'display: none');
+      console.log(pageNumber)
     };
 
       if (pageNumber === 6){
@@ -101,6 +137,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
         question4.setAttribute("style",'display: none');
         initials.setAttribute("style",'display: none');
         scoreCard.setAttribute("style",'display: block');
+        
       };
 
 
@@ -118,12 +155,17 @@ container.addEventListener("click", function(event) {
 // records selected answers to variables corresponding to each question
 //order must be reversed to prevent opperation racing through all pages.
 
+if (element.matches("button")  && pageNumber==6 )  {// High Score screen: when button is clicked returns user to welcome screen
+  pageNumber=pageNumber - 6;
+  var element = '';
+  pageNumberSwitch()
+ 
+  
+}
 
-if (element.matches("button")  && pageNumber==5 )  {
-  var selectedAnswer = element.getAttribute("data-letter");
-  var selected5= selectedAnswer
-  console.log("Question 5: " + selected5)
 
+if (element.matches("button")  && pageNumber==5 )  {  // Enter Initials Page
+ 
   pageNumber++;
   pageNumberSwitch()
 }
@@ -132,7 +174,13 @@ if (element.matches("button")  && pageNumber==4 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected4= selectedAnswer
   console.log("Question 4: " + selected4)
-  
+  if(selected4==correct4){              //logic which will govern how the score is added to
+    score=score+25;
+    console.log(score)
+  }else{
+    //subtract from timer
+      timer=timer-5
+  }
   pageNumber++;
   pageNumberSwitch()
 }
@@ -142,7 +190,12 @@ if (element.matches("button")  && pageNumber==3 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected3= selectedAnswer
   console.log("Question 3: " + selected3)
- 
+  if(selected3==correct3){              //logic which will govern how the score is added to
+    score=score+25;
+    console.log(score)
+  }else{//subtract from timer
+    timer=timer-5
+  }
   pageNumber++;
   pageNumberSwitch()
 }
@@ -152,29 +205,40 @@ if (element.matches("button")  && pageNumber==2 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected2= selectedAnswer
   console.log("Question 2: " + selected2)
-  
+    if(selected2==correct2){              //logic which will govern how the score is added to
+      score=score+25;
+      console.log(score)
+    }else{
+      timer=timer-5
+  }
   pageNumber++;
   pageNumberSwitch()
 }
+
+
 
 if (element.matches("button")  && pageNumber==1 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected1= selectedAnswer
   console.log("Question 1: " + selected1)
- 
-  if(selected1==correct1){              //logic which will govern how the score is added to
-    score=score=20;
-  }else{
-    //subtract from timer
+    if(selected1==correct1){              //logic which will govern how the score is added to
+      score=score+25;
+      console.log(score)
+    }else{
+    timer=timer-5
   }
-
   pageNumber++;
   pageNumberSwitch()
 }
 
 if (element.matches("button")  && pageNumber==0 )  {
   console.log("Page " + pageNumber)
+  timer= 30
+  setTime()
+// set timer function
   pageNumber++;
+
+
   //start timer code
  
 
@@ -226,6 +290,20 @@ if (element.matches("button")  && pageNumber==5 )  {
 
 
   console.log(pageNumber)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
