@@ -11,101 +11,114 @@
 
 </head>
 <body>
-  <div class="wrapper">
+  <div class="header">
     <header>
       <h1>Coding Quiz</h1>
       <h3>High Scores</h3>
       <h3>Time Remaining <span id="timeDisplay"></span></h3>
+     
     
     </header>
 
     <div class="container">
 
-      <div id="homepage">
+      <div class="homepage">                                          <!-- Homepage-->
         <h1>welcome to the quiz</h1>
         <h2>click start to begin</h2>
-        <button>Start Quiz</button>
+        <button id="pg+1">Start Quiz</button>
       </div>
 
 
 
-      <div id="question1" >
+      <div class="question1" >                                     <!--  Q1-->
         <h2 >Question #1</h2>
         <h2>QuestionText</h2>
-        <button id="a" data-letter=A> - A - </button>
-        <button id="b" data-letter=B> - B - </button>
-        <button id="c" data-letter=C> - C - </button>
-        <button id="d" data-letter=D> - D - </button>
+        <button id="pg+1" data-letter=A> - A - </button>
+        <button id="pg+1" data-letter=B> - B - </button>
+        <button id="pg+1" data-letter=C> - C - </button>
+        <button id="pg+1" data-letter=D> - D - </button>
+        
+        
+        
       </div>
 
 
 
-      <div id="question2">
+      <div  class="question2">                                    <!--  Q2-->
         <h2>Question #2</h2>
-    
-     
         <h2>QuestionText</h2>
-        <button id="a" data-letter=A> - A - </button>
-        <button id="b" data-letter=B> - B - </button>
-        <button id="c" data-letter=C> - C - </button>
-        <button id="d" data-letter=D> - D - </button>
+        <button id="pg+1" data-letter=A> - A - </button>
+        <button id="pg+1" data-letter=B> - B - </button>
+        <button id="pg+1" data-letter=C> - C - </button>
+        <button id="pg+1" data-letter=D> - D - </button>
+       
+        
+        
       </div>
 
 
-      <div id ="question3">
+      <div  class="question3">                                   <!--  Q3-->
         <h2>Question #3</h2>
-   
-    
         <h2>QuestionText</h2>
-        <button id="a" data-letter=A> - A - </button>
-        <button id="b" data-letter=B> - B - </button>
-        <button id="c" data-letter=C> - C - </button>
-        <button id="d" data-letter=D> - D - </button>
+        <button id="pg+1" data-letter=A> - A - </button>
+        <button id="pg+1" data-letter=B> - B - </button>
+        <button id="pg+1" data-letter=C> - C - </button>
+        <button id="pg+1" data-letter=D> - D - </button>
+        
       </div>
 
 
 
 
-      <div id ="question4" data-number="4">
+      <div class="question4" data-number="4">                   <!--  Q4-->
         <h2>Question #4</h2>
-   
-    
+  
         <h2>QuestionText</h2>
-        <button id="a" data-letter=A> - A - </button>
-        <button id="b" data-letter=B> - B - </button>
-        <button id="c" data-letter=C> - C - </button>
-        <button id="d" data-letter=D> - D - </button>
+        <button id="pg+1" data-letter=A> - A - </button>
+        <button id="pg+1" data-letter=B> - B - </button>
+        <button id="pg+1" data-letter=C> - C - </button>
+        <button id="pg+1" data-letter=D> - D - </button>
+    
       </div>
 
 
 
-      <div id="enterInitials">
+
+
+
+    <!--                                                  the one where you enter your initials -->
+
+      <div class="enterInitials"> 
         <h1>All done!</h1>
-        <h2>Your final score is (score value+time?) </h2>
-        <h3>Enter initials "(FORM)"</h3>
-        <button>submit</button>
-      </div>
-
-      <div id="scoreCard">
-        <h2>Score Page</h2>
-
-        <h2>ScoreText</h2>
-        <button>RESTART</button>
+        <h2>Your final score is <span id="displayScore"></span>
+          <form id="form" method="POST">
+            <label for="input">Enter initials: </label>
+            <input type="text" placeholder="" name="input" id="input" />
+          </form>
+        <button id="pg+1">submit</button>
       </div>
 
 
 
 
 
-      <div class="card-footer">
-     
+
+      <div class="scoreCard">                                 <!-- Where Scores are displayed -->
+        <h1>High Scores</h1>
+        <ol id="scoreList"></ol>    
+        <button id="pg+1">RESTART</button>
+        <button id="clearScores"> CLEAR SCORES</button>
+      </div>
+
+
       
 
+    
 
-
-
- 
-
+<br>
+      <div class="card-footer"></div> 
+      <h3><span id="right-wrong"></span></h3>
+      
       </div>
     </div>
   </div>
