@@ -4,13 +4,128 @@ var timer=''
 
 
 var container = document.querySelector(".container");
-var homepage = document.querySelector("#homepage");
-var question1 = document.querySelector("#question1");
-var question2 = document.querySelector("#question2");
-var question3 = document.querySelector("#question3");
-var question4 = document.querySelector("#question4");
-var initials  = document.querySelector("#enterInitials")
-var scoreCard = document.querySelector("#scoreCard");
+var homepage = document.querySelector(".homepage");
+var question1 = document.querySelector(".question1");
+var question2 = document.querySelector(".question2");
+var question3 = document.querySelector(".question3");
+var question4 = document.querySelector(".question4");
+var initials  = document.querySelector(".enterInitials")
+var scoreCard = document.querySelector(".scoreCard");
+var forwardPg = document.getElementById("pg+1");
+console.log(forwardPg);
+//////////////////////////////////////////////////////////////////////
+
+
+
+var input = document.querySelector("#input");
+var form = document.querySelector("#form");
+var scoreList = document.querySelector("#scoreList");
+
+
+var scoreArray = [];
+
+// The following function renders items in a todo list as <li> elements
+function renderScores() {
+  scoreList.innerHTML = "";  // Clear todoList element and update todoCountSpan
+  // Render a new li for each todo
+  for (var i = 0; i < scoreArray.length; i++) {
+    var playerInitials = scoreArray[i];
+    var li = document.createElement("li");
+   
+    
+    li.textContent = playerInitials
+    
+    li.setAttribute("data-index", i);
+    scoreList.appendChild(li);
+  }
+}
+
+// This function is being called below and will run when the page loads.
+function init() {
+  // Get stored scores from localStorage
+  var storedScores = JSON.parse(localStorage.getItem("Scores"));
+  if (storedScores !== null) {
+    scoreArray = storedScores;
+  }
+  
+  renderScores();
+}
+
+
+
+function storeScores() {                                                //Saves scores as json string
+  localStorage.setItem("Scores", JSON.stringify(scoreArray));
+}
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////
+document.getElementById("clearScores").addEventListener("click", function(){        // Deletes scores
+ 
+scoreArray=[]
+localStorage.clear("Scores", JSON.stringify(scoreArray));
+alert("Scores have been Cleared!")
+storeScores();
+renderScores();
+});
+
+
+
+
+
+// Add click event to todoList element
+
+scoreList.addEventListener("click", function(event) {
+  var element = event.target;
+  // Checks if element is a button
+  if (element.matches("#clearScores") === true) {
+    // Get its data-index value and remove the todo element from the list
+    var index = element.parentElement.getAttribute("data-index");
+    scoreArray.splice(index, 1);
+
+    // Store updated todos in localStorage, re-render the list
+    storeScores();
+    renderScores();
+  }
+});
+
+// Calls init to retrieve data and render it to the page on load
+init()
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //correct answers
@@ -24,18 +139,18 @@ var selected2=''
 var selected3=''
 var selected4=''
 
-console.log(homepage)
-console.log(question1)
-console.log(question2)
-console.log(question3)
-console.log(question4)
-console.log(initials)
-console.log(scoreCard)
+var rightWrong =document.querySelector("#right-wrong");
 
 
 
-
+var rightWrong =document.querySelector("#right-wrong");
 var timeEl = document.querySelector("#timeDisplay");
+var displayScore = document.querySelector('#displayScore');
+
+function showScore(){
+  var totalScore = score+timer
+  displayScore.textContent= totalScore
+}
 
 function setTime() {
   // Sets interval in variable
@@ -48,15 +163,19 @@ function setTime() {
       clearInterval(timerInterval);
       // Calls function to send user to score screen
       pageNumber=5;
+      console.log(score)
+      showScore()
       pageNumberSwitch()
+      
     }
     //stops timer at score screen
     if(pageNumber=== 5) {     //stops timer at page 5
       // Stops execution of action at set interval
       clearInterval(timerInterval);
       // Calls function to send user to score screen
-    
+      showScore()
       pageNumberSwitch()
+      
     }
 console.log(timer)
   }, 1000);
@@ -138,6 +257,7 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
         initials.setAttribute("style",'display: none');
         scoreCard.setAttribute("style",'display: block');
         
+    
       };
 
 
@@ -145,30 +265,44 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
     };
 
 
-
 // Listen for any clicks within the container div
 container.addEventListener("click", function(event) {
   event.preventDefault()
-  var element = event.target;
+  var element = event.target
+  var elementId= event.target.id
+  console.log(element)
 // if the clicked element is a button, then increase page number by 1
 
 // records selected answers to variables corresponding to each question
 //order must be reversed to prevent opperation racing through all pages.
 
-if (element.matches("button")  && pageNumber==6 )  {// High Score screen: when button is clicked returns user to welcome screen
+if (element.matches("button")  && pageNumber==6 && elementId !="clearScores" )  {// High Score screen: when button is clicked returns user to welcome screen
   pageNumber=pageNumber - 6;
   var element = '';
   pageNumberSwitch()
- 
-  
 }
-
 
 if (element.matches("button")  && pageNumber==5 )  {  // Enter Initials Page
- 
+  
+  var totalScore = score+timer
+  var initialsPlusTotalScore = input.value.trim() + " "+ totalScore ;
+  var checkForInitials = input.value.trim()
+  // Return from function early if submitted todoText is blank
+  if (checkForInitials === "") {
+    return;
+  }
+  // Add new todoText to todos array, clear the input
+  scoreArray.push(initialsPlusTotalScore);
+  input.value = "";
+  // Stores initials and the corresponding score in local storage and updates the list
+  storeScores();
+  renderScores();
   pageNumber++;
-  pageNumberSwitch()
+  pageNumberSwitch();
+
 }
+
+
 
 if (element.matches("button")  && pageNumber==4 )  {
   var selectedAnswer = element.getAttribute("data-letter");
@@ -177,9 +311,11 @@ if (element.matches("button")  && pageNumber==4 )  {
   if(selected4==correct4){              //logic which will govern how the score is added to
     score=score+25;
     console.log(score)
+    rightWrong.textContent = "Correct!";
   }else{
     //subtract from timer
       timer=timer-5
+      rightWrong.textContent = "Incorrect!";
   }
   pageNumber++;
   pageNumberSwitch()
@@ -193,8 +329,10 @@ if (element.matches("button")  && pageNumber==3 )  {
   if(selected3==correct3){              //logic which will govern how the score is added to
     score=score+25;
     console.log(score)
+    rightWrong.textContent = "Correct!";
   }else{//subtract from timer
     timer=timer-5
+    rightWrong.textContent = "Incorrect!";
   }
   pageNumber++;
   pageNumberSwitch()
@@ -208,8 +346,10 @@ if (element.matches("button")  && pageNumber==2 )  {
     if(selected2==correct2){              //logic which will govern how the score is added to
       score=score+25;
       console.log(score)
+      rightWrong.textContent = "Correct!";
     }else{
       timer=timer-5
+      rightWrong.textContent = "Incorrect!";
   }
   pageNumber++;
   pageNumberSwitch()
@@ -224,17 +364,21 @@ if (element.matches("button")  && pageNumber==1 )  {
     if(selected1==correct1){              //logic which will govern how the score is added to
       score=score+25;
       console.log(score)
+      rightWrong.textContent = "Correct!";
+      
     }else{
     timer=timer-5
+       rightWrong.textContent = "Incorrect!";
   }
   pageNumber++;
   pageNumberSwitch()
 }
 
 if (element.matches("button")  && pageNumber==0 )  {
-  console.log("Page " + pageNumber)
-  timer= 30
-  setTime()
+  console.log("Page " + pageNumber);
+  timer= 30;
+  score=0;
+  setTime();
 // set timer function
   pageNumber++;
 
@@ -279,20 +423,20 @@ if (element.matches("button")  && pageNumber==0 )  {
 
 
 
-  // going to create objects on score screen page
-if (element.matches("button")  && pageNumber==5 )  {
+  });
 
 
-  }});
 
 
+
+
+
+  /////Runs on pag start
   pageNumberSwitch()
-
-
   console.log(pageNumber)
 
 
-
+  showScore()
 
 
 
