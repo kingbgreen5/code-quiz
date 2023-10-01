@@ -12,29 +12,23 @@ var question4 = document.querySelector(".question4");
 var initials  = document.querySelector(".enterInitials")
 var scoreCard = document.querySelector(".scoreCard");
 var forwardPg = document.getElementById("pg+1");
-console.log(forwardPg);
-//////////////////////////////////////////////////////////////////////
-
-
-
 var input = document.querySelector("#input");
 var form = document.querySelector("#form");
 var scoreList = document.querySelector("#scoreList");
-
-
+var viewScores =document.querySelector("#viewScores")
+var rightWrongMsg =document.querySelector("#right-wrong");
+var timeEl = document.querySelector("#timeDisplay");
+var displayScore = document.querySelector('#displayScore');
 var scoreArray = [];
 
-// The following function renders items in a todo list as <li> elements
+// CREATES SCORES IN LIST ELEMENT
 function renderScores() {
-  scoreList.innerHTML = "";  // Clear todoList element and update todoCountSpan
-  // Render a new li for each todo
+  scoreList.innerHTML = "";  
+  // Render a new li for each SCORE
   for (var i = 0; i < scoreArray.length; i++) {
     var playerInitials = scoreArray[i];
     var li = document.createElement("li");
-   
-    
     li.textContent = playerInitials
-    
     li.setAttribute("data-index", i);
     scoreList.appendChild(li);
   }
@@ -47,30 +41,20 @@ function init() {
   if (storedScores !== null) {
     scoreArray = storedScores;
   }
-  
+
   renderScores();
 }
-
-
 
 function storeScores() {                                                //Saves scores as json string
   localStorage.setItem("Scores", JSON.stringify(scoreArray));
 }
-
-
-
-
-
-
-
-
 
 /////////////////////////////////////////////////
 document.getElementById("clearScores").addEventListener("click", function(){        // Deletes scores
  
 scoreArray=[]
 localStorage.clear("Scores", JSON.stringify(scoreArray));
-alert("Scores have been Cleared!")
+
 storeScores();
 renderScores();
 });
@@ -78,18 +62,17 @@ renderScores();
 
 
 
-
+//////                                                  FLAGGED FOR POSSIBLE DELETION
 // Add click event to todoList element
-
 scoreList.addEventListener("click", function(event) {
   var element = event.target;
   // Checks if element is a button
   if (element.matches("#clearScores") === true) {
-    // Get its data-index value and remove the todo element from the list
+   
     var index = element.parentElement.getAttribute("data-index");
     scoreArray.splice(index, 1);
 
-    // Store updated todos in localStorage, re-render the list
+    // Store updated scores in localStorage
     storeScores();
     renderScores();
   }
@@ -106,28 +89,6 @@ init()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //correct answers
 var correct1="A"
 var correct2="B"
@@ -138,14 +99,6 @@ var selected1=''
 var selected2=''
 var selected3=''
 var selected4=''
-
-var rightWrong =document.querySelector("#right-wrong");
-
-
-
-var rightWrong =document.querySelector("#right-wrong");
-var timeEl = document.querySelector("#timeDisplay");
-var displayScore = document.querySelector('#displayScore');
 
 function showScore(){
   var totalScore = score+timer
@@ -181,7 +134,7 @@ console.log(timer)
   }, 1000);
 }
 
-function pageNumberSwitch() {       //defines pageNumberSwitch Logic
+function pageNumberSwitch() {                                   //defines pageNumberSwitch Logic
   if (pageNumber === 0){
     homepage.setAttribute("style",'display: block');
     question1.setAttribute("style",'display: none');
@@ -265,6 +218,17 @@ function pageNumberSwitch() {       //defines pageNumberSwitch Logic
     };
 
 
+
+viewScores.addEventListener("click", function(event) {   // When View Scores button is clicked, send user to end screen
+      pageNumber= 6;
+      pageNumberSwitch();
+      });
+      
+
+  
+
+
+
 // Listen for any clicks within the container div
 container.addEventListener("click", function(event) {
   event.preventDefault()
@@ -276,10 +240,11 @@ container.addEventListener("click", function(event) {
 // records selected answers to variables corresponding to each question
 //order must be reversed to prevent opperation racing through all pages.
 
+
 if (element.matches("button")  && pageNumber==6 && elementId !="clearScores" )  {// High Score screen: when button is clicked returns user to welcome screen
   pageNumber=pageNumber - 6;
   var element = '';
-  pageNumberSwitch()
+  pageNumberSwitch();
 }
 
 if (element.matches("button")  && pageNumber==5 )  {  // Enter Initials Page
@@ -287,13 +252,14 @@ if (element.matches("button")  && pageNumber==5 )  {  // Enter Initials Page
   var totalScore = score+timer
   var initialsPlusTotalScore = input.value.trim() + " "+ totalScore ;
   var checkForInitials = input.value.trim()
-  // Return from function early if submitted todoText is blank
+  // Return from function early if submitted is blank
   if (checkForInitials === "") {
     return;
   }
-  // Add new todoText to todos array, clear the input
+  // Add new scores to scoreArray, clear the input
   scoreArray.push(initialsPlusTotalScore);
   input.value = "";
+  rightWrongMsg.textContent = "";
   // Stores initials and the corresponding score in local storage and updates the list
   storeScores();
   renderScores();
@@ -311,11 +277,11 @@ if (element.matches("button")  && pageNumber==4 )  {
   if(selected4==correct4){              //logic which will govern how the score is added to
     score=score+25;
     console.log(score)
-    rightWrong.textContent = "Correct!";
+    rightWrongMsg.textContent = "Correct!";
   }else{
     //subtract from timer
       timer=timer-5
-      rightWrong.textContent = "Incorrect!";
+      rightWrongMsg.textContent = "Incorrect!";
   }
   pageNumber++;
   pageNumberSwitch()
@@ -329,10 +295,10 @@ if (element.matches("button")  && pageNumber==3 )  {
   if(selected3==correct3){              //logic which will govern how the score is added to
     score=score+25;
     console.log(score)
-    rightWrong.textContent = "Correct!";
+    rightWrongMsg.textContent = "Correct!";
   }else{//subtract from timer
     timer=timer-5
-    rightWrong.textContent = "Incorrect!";
+    rightWrongMsg.textContent = "Incorrect!";
   }
   pageNumber++;
   pageNumberSwitch()
@@ -346,10 +312,10 @@ if (element.matches("button")  && pageNumber==2 )  {
     if(selected2==correct2){              //logic which will govern how the score is added to
       score=score+25;
       console.log(score)
-      rightWrong.textContent = "Correct!";
+      rightWrongMsg.textContent = "Correct!";
     }else{
       timer=timer-5
-      rightWrong.textContent = "Incorrect!";
+      rightWrongMsg.textContent = "Incorrect!";
   }
   pageNumber++;
   pageNumberSwitch()
@@ -364,12 +330,12 @@ if (element.matches("button")  && pageNumber==1 )  {
     if(selected1==correct1){              //logic which will govern how the score is added to
       score=score+25;
       console.log(score)
-      rightWrong.textContent = "Correct!";
+      rightWrongMsg.textContent = "Correct!";
       
     }else{
-    timer=timer-5
-       rightWrong.textContent = "Incorrect!";
-  }
+      timer=timer-5
+      rightWrongMsg.textContent = "Incorrect!";
+    }
   pageNumber++;
   pageNumberSwitch()
 }
@@ -381,27 +347,7 @@ if (element.matches("button")  && pageNumber==0 )  {
   setTime();
 // set timer function
   pageNumber++;
-
-
-  //start timer code
- 
-
- 
-
-
-
-
-
-
-    
-
-
-
-
-
- 
-     pageNumberSwitch()
-
+  pageNumberSwitch()
   }
 
 
@@ -437,184 +383,6 @@ if (element.matches("button")  && pageNumber==0 )  {
 
 
   showScore()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-var imageContainer = document.querySelector(".img-container");
-
-
-imageContainer.addEventListener("click", function(event) {
-  var element = event.target;
-
-  // Check if the clicked element was an image
-  if (element.matches("img")) {
-    // Get the current value of the image's data-state attribute
-    var state = element.getAttribute("data-state");
-
-    if (state === "still") {
-      // Change the data-state attribute's value
-      // There are two different ways this attribute can be set
-      element.dataset.state = "animate";
-      element.setAttribute("data-state", "animate");
-
-      // Update the image's source to the string being stored in the data-animate attribute
-      element.setAttribute("src", element.dataset.animate);
-    } else {
-      // Change the attributes back to their non-animated values
-      element.dataset.state = "still";
-      element.setAttribute("src", element.dataset.still);
-    }
-  }
-});
-
-
-
-
- //-----creates object
-
-  selectedAnswer: event.target.getAttribute("data-letter"),
-  pageNumber + 1
-  
-});
-
-
-//-----stores the information object as a string with the key name "info"
-localStorage.setItem("info", JSON.stringify(question1));
-
-var element = e.target;
-  var selectedAnswer = element.getAttribute("data-letter");
-
-
-  console.log(selectedAnswer);
-  console.log("selectedAnswer " + selectedAnswer);
-console.log(pageNumber)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-  var element = event.target;
-  var selectedAnswer = element.getAttribute("data-letter");
-
-  
-  //prevent default
-  //some code which logs
-  console.log(element)
-  console.log(selectedAnswer)
-
-
-
-
-
-
-
-//if (questionNumber === "1" && selectedAnswer !==A ) {
-
-//}
-
-
-  //if (currentState === "hidden") {
-   // element.innerHTML = element.getAttribute("data-letter");
-  //  element.setAttribute("data-state", "visible");
- // }
-
-
-
-  // another way
-
-  //question1answer-Saved to local storage = event.target.getAttribute("data-Letter")
-  // event.target.innerHTML = event.target.getAttribute("data-number");
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----------------------------------------------increase and decrease the page number---------------------------
-var count = 0;
-var incrementEl = document.querySelector("#increment");
-var decrementEl = document.querySelector("#decrement");
-var countEl = document.querySelector("#count");
-
-function setCounterText() {
-  countEl.textContent = count;
-}
-
-// TODO: Add event listener to increment button
-incrementEl.addEventListener("click", function() {
-count = count +1;
-setCounterText()
-
-
-});
-
-
-
-
-// TODO: Add event listener to decrement button 
-decrementEl.addEventListener("click", function() {
-if (count > 0) {
-  count = count -1;
-  setCounterText()
-}});
-
-
-console.log(count)
-countEl.textContent = count;
-
-
-*/
-
-
-
-
 
 
 
