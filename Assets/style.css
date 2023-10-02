@@ -38,6 +38,7 @@ header {
   margin: 0 auto;
   max-width: 800px;
   padding: 30px 40px;
+  display: flex;
 }
 
 .card-header::after {
