@@ -38,7 +38,7 @@ header {
   margin: 0 auto;
   max-width: 800px;
   padding: 30px 40px;
-  display: flex;
+
 }
 
 .card-header::after {
@@ -91,6 +91,10 @@ button {
   border-radius: 5px;
   color: #e2e9ec;
   font-size: 18px;
+}
+
+button:hover {
+  background: #34627a;
 }
 
 .float-right {

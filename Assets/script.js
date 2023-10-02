@@ -3,6 +3,21 @@ var score = 0
 var timer=''
 
 
+var correct1="A"//correct answers
+var correct2="B"
+var correct3="C"
+var correct4="D"
+
+var selected1=''  //user selected answers
+var selected2=''
+var selected3=''
+var selected4=''
+
+
+
+
+
+
 var container = document.querySelector(".container");
 var homepage = document.querySelector(".homepage");
 var question1 = document.querySelector(".question1");
@@ -21,10 +36,15 @@ var timeEl = document.querySelector("#timeDisplay");
 var displayScore = document.querySelector('#displayScore');
 var scoreArray = [];
 
+
+
+
+
+//                                                            Functions
 // CREATES SCORES IN LIST ELEMENT
 function renderScores() {
   scoreList.innerHTML = "";  
-  // Render a new li for each SCORE
+  // creates new li for every score in the array
   for (var i = 0; i < scoreArray.length; i++) {
     var playerInitials = scoreArray[i];
     var li = document.createElement("li");
@@ -34,7 +54,7 @@ function renderScores() {
   }
 }
 
-// This function is being called below and will run when the page loads.
+
 function init() {
   // Get stored scores from localStorage
   var storedScores = JSON.parse(localStorage.getItem("Scores"));
@@ -49,8 +69,7 @@ function storeScores() {                                                //Saves 
   localStorage.setItem("Scores", JSON.stringify(scoreArray));
 }
 
-/////////////////////////////////////////////////
-document.getElementById("clearScores").addEventListener("click", function(){        // Deletes scores
+document.getElementById("clearScores").addEventListener("click", function(){        // Deletes scores when clear scores is pressed
  
 scoreArray=[]
 localStorage.clear("Scores", JSON.stringify(scoreArray));
@@ -62,68 +81,27 @@ renderScores();
 
 
 
-//////                                                  FLAGGED FOR POSSIBLE DELETION
-// Add click event to todoList element
-scoreList.addEventListener("click", function(event) {
-  var element = event.target;
-  // Checks if element is a button
-  if (element.matches("#clearScores") === true) {
-   
-    var index = element.parentElement.getAttribute("data-index");
-    scoreArray.splice(index, 1);
 
-    // Store updated scores in localStorage
-    storeScores();
-    renderScores();
-  }
-});
-
-// Calls init to retrieve data and render it to the page on load
-init()
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-//correct answers
-var correct1="A"
-var correct2="B"
-var correct3="C"
-var correct4="D"
-
-var selected1=''
-var selected2=''
-var selected3=''
-var selected4=''
-
-function showScore(){
+function showScore(){                                                 // combines score and timer to give you the total time
   var totalScore = score+timer
   displayScore.textContent= totalScore
 }
 
-function setTime() {
+
+function setTime() {                                                  // Timer logic, when Timer runs out, takes you to score screen.
   // Sets interval in variable
   var timerInterval = setInterval(function() {
     timer--;
     timeEl.textContent = timer;
-
-    if(timer=== 0) {
-      // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      // Calls function to send user to score screen
+    if(timer=== 0) {                                                 // Stops execution of action at set interval
+      clearInterval(timerInterval);                               // Calls function to send user to score screen
       pageNumber=5;
       console.log(score)
-      showScore()
+      showScore()                            
       pageNumberSwitch()
-      
     }
-    //stops timer at score screen
-    if(pageNumber=== 5) {     //stops timer at page 5
-      // Stops execution of action at set interval
+
+    if(pageNumber=== 5) {                                  //stops timer at page 5                                       
       clearInterval(timerInterval);
       // Calls function to send user to score screen
       showScore()
@@ -134,7 +112,7 @@ console.log(timer)
   }, 1000);
 }
 
-function pageNumberSwitch() {                                   //defines pageNumberSwitch Logic
+function pageNumberSwitch() {                                   //defines pageNumberSwitch Logic. Causes pages to be displayed or not based on pageNumber
   if (pageNumber === 0){
     homepage.setAttribute("style",'display: block');
     question1.setAttribute("style",'display: none');
@@ -219,7 +197,7 @@ function pageNumberSwitch() {                                   //defines pageNu
 
 
 
-viewScores.addEventListener("click", function(event) {   // When View Scores button is clicked, send user to end screen
+viewScores.addEventListener("click", function(event) {              // When View Scores button is clicked, send user to end screen
       pageNumber= 6;
       pageNumberSwitch();
       });
@@ -229,25 +207,20 @@ viewScores.addEventListener("click", function(event) {   // When View Scores but
 
 
 
-// Listen for any clicks within the container div
-container.addEventListener("click", function(event) {
-  event.preventDefault()
+container.addEventListener("click", function(event) {                    // Listen for any clicks within the container div, if user clicks on a button it will generally take you to the next page, excepption is clearScores button
+  event.preventDefault()                                                // Also when a button is clicked, grabs the letter value of that answer and inserts it into a variable, then checks if that answer was correct 
   var element = event.target
   var elementId= event.target.id
   console.log(element)
-// if the clicked element is a button, then increase page number by 1
-
-// records selected answers to variables corresponding to each question
-//order must be reversed to prevent opperation racing through all pages.
 
 
-if (element.matches("button")  && pageNumber==6 && elementId !="clearScores" )  {// High Score screen: when button is clicked returns user to welcome screen
+if (element.matches("button")  && pageNumber==6 && elementId !="clearScores" )  {   // High Score screen: when button is clicked returns user to welcome screen
   pageNumber=pageNumber - 6;
   var element = '';
   pageNumberSwitch();
 }
 
-if (element.matches("button")  && pageNumber==5 )  {  // Enter Initials Page
+if (element.matches("button")  && pageNumber==5 )  {              // Enter Initials Page
   
   var totalScore = score+timer
   var initialsPlusTotalScore = input.value.trim() + " "+ totalScore ;
@@ -260,9 +233,9 @@ if (element.matches("button")  && pageNumber==5 )  {  // Enter Initials Page
   scoreArray.push(initialsPlusTotalScore);
   input.value = "";
   rightWrongMsg.textContent = "";
-  // Stores initials and the corresponding score in local storage and updates the list
+
   storeScores();
-  renderScores();
+  renderScores(); // Stores initials and the corresponding score in local storage and updates the list
   pageNumber++;
   pageNumberSwitch();
 
@@ -274,7 +247,7 @@ if (element.matches("button")  && pageNumber==4 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected4= selectedAnswer
   console.log("Question 4: " + selected4)
-  if(selected4==correct4){              //logic which will govern how the score is added to
+  if(selected4==correct4){                        
     score=score+25;
     console.log(score)
     rightWrongMsg.textContent = "Correct!";
@@ -292,7 +265,7 @@ if (element.matches("button")  && pageNumber==3 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected3= selectedAnswer
   console.log("Question 3: " + selected3)
-  if(selected3==correct3){              //logic which will govern how the score is added to
+  if(selected3==correct3){          
     score=score+25;
     console.log(score)
     rightWrongMsg.textContent = "Correct!";
@@ -309,7 +282,7 @@ if (element.matches("button")  && pageNumber==2 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected2= selectedAnswer
   console.log("Question 2: " + selected2)
-    if(selected2==correct2){              //logic which will govern how the score is added to
+    if(selected2==correct2){              
       score=score+25;
       console.log(score)
       rightWrongMsg.textContent = "Correct!";
@@ -326,12 +299,11 @@ if (element.matches("button")  && pageNumber==2 )  {
 if (element.matches("button")  && pageNumber==1 )  {
   var selectedAnswer = element.getAttribute("data-letter");
   var selected1= selectedAnswer
-  console.log("Question 1: " + selected1)
-    if(selected1==correct1){              //logic which will govern how the score is added to
+  console.log("Question 1: " + selected1) // records selected answers to variables corresponding to each question
+    if(selected1==correct1){           
       score=score+25;
       console.log(score)
       rightWrongMsg.textContent = "Correct!";
-      
     }else{
       timer=timer-5
       rightWrongMsg.textContent = "Incorrect!";
@@ -352,37 +324,15 @@ if (element.matches("button")  && pageNumber==0 )  {
 
 
 
-
-// records selected answers to variables corresponding to each question
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   });
 
 
-
-
-
-
-
-  /////Runs on pag start
+  /////Runs on page start
   pageNumberSwitch()
-  console.log(pageNumber)
-
-
   showScore()
+
+// Calls init to retrieve data and render it to the page on load
+init()
 
 
 
